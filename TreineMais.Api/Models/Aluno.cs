@@ -6,6 +6,6 @@ namespace TreineMais.Api.Models
         public int UserId { get; set; }
         public int InstrutorId { get; set; }
         public int? Idade { get; set; }
-        public string Objetivo { get; set; }
+        public string? Objetivo { get; set; }
     }
 }

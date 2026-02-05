@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TreineMais.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+559a7fd18bcbd38cfab3cc9c655c0d81c8a11775")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f387d02b52763d895c3622c74a2597c314f1d3d9")]
 [assembly: System.Reflection.AssemblyProductAttribute("TreineMais.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TreineMais.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

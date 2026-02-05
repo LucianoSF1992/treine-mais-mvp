@@ -4,6 +4,6 @@ namespace TreineMais.Api.Models
     {
         public int Id { get; set; }
         public int AlunoId { get; set; }
-        public string DiaSemana { get; set; }
+        public string? DiaSemana { get; set; }
     }
 }
