@@ -16,48 +16,102 @@ namespace TreineMais.Api.Controllers
             _context = context;
         }
 
-        // LISTAR
+        // ======================================================
+        // LISTAR TODOS OS INSTRUTORES
+        // GET: api/instrutores
+        // ======================================================
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             var instrutores = await _context.Users.Where(u => u.Tipo == "INSTRUTOR").ToListAsync();
 
             return Ok(instrutores);
         }
 
-        // CRIAR
-        [HttpPost]
-        public async Task<IActionResult> Post(User instrutor)
+        // ======================================================
+        // BUSCAR INSTRUTOR POR ID
+        // GET: api/instrutores/{id}
+        // ======================================================
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
+            var instrutor = await _context.Users.FindAsync(id);
+
+            if (instrutor == null || instrutor.Tipo != "INSTRUTOR")
+                return NotFound();
+
+            return Ok(instrutor);
+        }
+
+        // ======================================================
+        // CRIAR NOVO INSTRUTOR
+        // POST: api/instrutores
+        // ======================================================
+        [HttpPost]
+        public async Task<IActionResult> Create(User instrutor)
+        {
+            if (
+                string.IsNullOrEmpty(instrutor.Nome)
+                || string.IsNullOrEmpty(instrutor.Email)
+                || string.IsNullOrEmpty(instrutor.Senha)
+            )
+            {
+                return BadRequest("Nome, Email e Senha são obrigatórios.");
+            }
+
+            var emailExiste = await _context.Users.AnyAsync(u => u.Email == instrutor.Email);
+
+            if (emailExiste)
+                return BadRequest("Já existe um usuário com este email.");
+
             instrutor.Tipo = "INSTRUTOR";
+
             _context.Users.Add(instrutor);
             await _context.SaveChangesAsync();
 
             return Ok(instrutor);
         }
 
-        // EDITAR
+        // ======================================================
+        // ATUALIZAR INSTRUTOR
+        // PUT: api/instrutores/{id}
+        // ======================================================
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, User instrutor)
+        public async Task<IActionResult> Update(int id, User instrutor)
         {
             var existente = await _context.Users.FindAsync(id);
-            if (existente == null)
+
+            if (existente == null || existente.Tipo != "INSTRUTOR")
                 return NotFound();
+
+            if (string.IsNullOrEmpty(instrutor.Nome) || string.IsNullOrEmpty(instrutor.Email))
+            {
+                return BadRequest("Nome e Email são obrigatórios.");
+            }
 
             existente.Nome = instrutor.Nome;
             existente.Email = instrutor.Email;
-            existente.Senha = instrutor.Senha;
+
+            // Atualiza senha apenas se foi informada
+            if (!string.IsNullOrEmpty(instrutor.Senha))
+            {
+                existente.Senha = instrutor.Senha;
+            }
 
             await _context.SaveChangesAsync();
             return Ok(existente);
         }
 
-        // EXCLUIR
+        // ======================================================
+        // EXCLUIR INSTRUTOR
+        // DELETE: api/instrutores/{id}
+        // ======================================================
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var instrutor = await _context.Users.FindAsync(id);
-            if (instrutor == null)
+
+            if (instrutor == null || instrutor.Tipo != "INSTRUTOR")
                 return NotFound();
 
             _context.Users.Remove(instrutor);
