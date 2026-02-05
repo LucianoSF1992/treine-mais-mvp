@@ -1,15 +1,16 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
+    <title>Treine+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TreineMais.Web</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TreineMais.Web.styles.css" asp-append-version="true" />
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- HEADER -->
     <header class="navbar navbar-dark bg-primary">
         <div class="container-fluid">
             <span class="navbar-brand">
@@ -18,15 +19,20 @@
         </div>
     </header>
 
-    <main class="container my-4">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container my-4 flex-fill">
         @RenderBody()
     </main>
 
-    <footer class="text-center text-muted py-3">
-        Treine+ © @DateTime.Now.Year
+    <!-- FOOTER -->
+    <footer class="bg-light text-center text-muted py-3 mt-auto">
+        <small>
+            Treine+ © @DateTime.Now.Year — Sistema de treinos para academias e personal trainers
+        </small>
     </footer>
 
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
-</body>
 
+</body>
 </html>
