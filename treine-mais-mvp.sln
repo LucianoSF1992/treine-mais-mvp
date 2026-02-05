@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreineMais.Api", "TreineMais.Api\TreineMais.Api.csproj", "{DAFA9901-BAA3-3938-164A-85F4582C8A14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreineMais.Web", "TreineMais.Web\TreineMais.Web.csproj", "{57BDC3E8-CAA9-6B95-40DD-EE4D99FD25A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAFA9901-BAA3-3938-164A-85F4582C8A14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFA9901-BAA3-3938-164A-85F4582C8A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFA9901-BAA3-3938-164A-85F4582C8A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFA9901-BAA3-3938-164A-85F4582C8A14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BDC3E8-CAA9-6B95-40DD-EE4D99FD25A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BDC3E8-CAA9-6B95-40DD-EE4D99FD25A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BDC3E8-CAA9-6B95-40DD-EE4D99FD25A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BDC3E8-CAA9-6B95-40DD-EE4D99FD25A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1057B415-9CC5-4D5C-8063-A6C874FDF511}
+	EndGlobalSection
+EndGlobal
