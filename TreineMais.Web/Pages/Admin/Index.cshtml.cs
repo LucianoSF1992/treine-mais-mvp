@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using TreineMais.Web.DTOs;
 
 namespace TreineMais.Web.Pages.Admin
@@ -12,7 +12,7 @@ namespace TreineMais.Web.Pages.Admin
         {
             var client = new HttpClient();
             var dados = await client.GetFromJsonAsync<List<LoginResponseDto>>(
-                "http://localhost:5180/api/instrutores"
+                "http://localhost:5129/api/instrutores"
             );
 
             if (dados != null)
