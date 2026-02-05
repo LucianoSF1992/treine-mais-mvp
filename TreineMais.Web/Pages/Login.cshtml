@@ -1,0 +1,35 @@
+@page
+@model TreineMais.Web.Pages.LoginModel
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="text-center mb-3">Acessar Treine+</h4>
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Senha</label>
+                        <input asp-for="Senha" type="password" class="form-control" />
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Entrar
+                    </button>
+
+                    @if (!string.IsNullOrEmpty(Model.MensagemErro))
+                    {
+                        <div class="alert alert-danger mt-3">
+                            @Model.MensagemErro
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

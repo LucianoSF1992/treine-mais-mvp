@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TreineMais.Web</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TreineMais.Web.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="navbar navbar-dark bg-primary">
+        <div class="container-fluid">
+            <span class="navbar-brand">
+                🏋️ Treine+
+            </span>
+        </div>
+    </header>
+
+    <main class="container my-4">
+        @RenderBody()
+    </main>
+
+    <footer class="text-center text-muted py-3">
+        Treine+ © @DateTime.Now.Year
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>
