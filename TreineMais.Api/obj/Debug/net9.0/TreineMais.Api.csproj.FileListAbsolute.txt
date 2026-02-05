@@ -1,0 +1,9 @@
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.csproj.AssemblyReference.cache
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.AssemblyInfoInputs.cache
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.AssemblyInfo.cs
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.csproj.CoreCompileInputs.cache
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lucia\OneDrive\Cursos\Curso Meu Sistema Lucrativo\Projetos Pessoais\treine-mais-mvp\TreineMais.Api\obj\Debug\net9.0\TreineMais.Api.sourcelink.json
