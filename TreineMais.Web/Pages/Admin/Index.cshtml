@@ -1,4 +1,31 @@
 @page
+@model TreineMais.Web.Pages.Admin.IndexModel
 
-<h2>Painel do Administrador</h2>
-<p>Bem-vindo ao Treine+</p>
+<h2>Instrutores</h2>
+
+<a class="btn btn-primary mb-3" asp-page="Create">
+    + Novo Instrutor
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var instrutor in Model.Instrutores)
+    {
+        <tr>
+            <td>@instrutor.Nome</td>
+            <td>@instrutor.Email</td>
+            <td>
+                <a asp-page="Edit" asp-route-id="@instrutor.Id">Editar</a> |
+                <a asp-page="Delete" asp-route-id="@instrutor.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
