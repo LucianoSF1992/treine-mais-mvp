@@ -26,7 +26,7 @@ namespace TreineMais.Web.Pages
             var client = new HttpClient();
 
             var response = await client.PostAsJsonAsync(
-                "http://localhost:5000/api/auth/login",
+                "http://localhost:5129/api/auth/login",
                 new { Email, Senha }
             );
 
