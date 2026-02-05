@@ -1,6 +1,7 @@
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http.Json;
+using TreineMais.Web.DTOs;
 
 namespace TreineMais.Web.Pages
 {
@@ -16,6 +17,12 @@ namespace TreineMais.Web.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Senha))
+            {
+                MensagemErro = "Informe email e senha.";
+                return Page();
+            }
+
             var client = new HttpClient();
 
             var response = await client.PostAsJsonAsync(
@@ -29,12 +36,18 @@ namespace TreineMais.Web.Pages
                 return Page();
             }
 
-            var usuario = await response.Content.ReadFromJsonAsync<dynamic>();
+            var usuario = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
 
-            if (usuario.tipo == "ADMIN")
+            if (usuario == null || string.IsNullOrEmpty(usuario.Tipo))
+            {
+                MensagemErro = "Erro ao processar login.";
+                return Page();
+            }
+
+            if (usuario.Tipo == "ADMIN")
                 return RedirectToPage("/Admin/Index");
 
-            if (usuario.tipo == "INSTRUTOR")
+            if (usuario.Tipo == "INSTRUTOR")
                 return RedirectToPage("/Instrutor/Index");
 
             return RedirectToPage("/Aluno/Index");
