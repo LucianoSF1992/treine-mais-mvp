@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.Api\\TreineMais.Api.csproj": {}
+    "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.api\\TreineMais.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.Api\\TreineMais.Api.csproj": {
+    "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.api\\TreineMais.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.Api\\TreineMais.Api.csproj",
+        "projectUniqueName": "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.api\\TreineMais.Api.csproj",
         "projectName": "TreineMais.Api",
-        "projectPath": "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.Api\\TreineMais.Api.csproj",
+        "projectPath": "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.api\\TreineMais.Api.csproj",
         "packagesPath": "C:\\Users\\lucia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.Api\\obj\\",
+        "outputPath": "C:\\Users\\lucia\\OneDrive\\Cursos\\Curso Meu Sistema Lucrativo\\Projetos Pessoais\\treine-mais-mvp\\TreineMais.api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lucia\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -54,7 +54,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.1.1, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
