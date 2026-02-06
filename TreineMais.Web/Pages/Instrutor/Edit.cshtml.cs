@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Json;
+using TreineMais.Web.ViewModels;
+
 
 namespace TreineMais.Web.Pages.Instrutor
 {
