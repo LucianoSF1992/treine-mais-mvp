@@ -122,13 +122,11 @@ namespace TreineMais.Api.Controllers
                 return NotFound();
 
             if (aluno.User != null)
-            {
                 _context.Users.Remove(aluno.User);
-            }
 
             _context.Alunos.Remove(aluno);
-
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
     }

@@ -1,0 +1,26 @@
+@page "{id:int}"
+@model TreineMais.Web.Pages.Instrutor.DeleteModel
+
+<h2>Excluir Aluno</h2>
+
+<div class="alert alert-danger mt-3">
+    <p>
+        Tem certeza que deseja excluir o aluno
+        <strong>@Model.Nome</strong>?
+    </p>
+    <p>
+        ⚠️ Esta ação não poderá ser desfeita.
+    </p>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Confirmar Exclusão
+    </button>
+
+    <a asp-page="Index" class="btn btn-secondary ms-2">
+        Cancelar
+    </a>
+</form>

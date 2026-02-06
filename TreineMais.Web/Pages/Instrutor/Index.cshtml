@@ -26,8 +26,13 @@
                 <td>@aluno.Idade</td>
                 <td>@aluno.Objetivo</td>
                 <td>
-                    <a asp-page="Edit" asp-route-id="@aluno.Id">Editar</a> |
-                    <a asp-page="Delete" asp-route-id="@aluno.Id">Excluir</a>
+                    <a asp-page="Edit" asp-route-id="@aluno.Id"   class="btn btn-sm btn-warning">
+                        Editar
+                    </a>
+
+                    <a asp-page="Delete" asp-route-id="@aluno.Id" class="btn btn-sm btn-danger ms-1">
+                        Excluir
+                    </a>
                 </td>
             </tr>
         }
