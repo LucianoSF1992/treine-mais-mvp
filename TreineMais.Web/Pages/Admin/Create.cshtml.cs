@@ -18,7 +18,7 @@ namespace TreineMais.Web.Pages.Admin
         public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrEmpty(Nome) ||
-                || string.IsNullOrEmpty(Email)
+                string.IsNullOrEmpty(Email) ||
                 string.IsNullOrEmpty(Senha))
             {
                 ModelState.AddModelError("", "Todos os campos são obrigatórios.");
@@ -45,5 +45,6 @@ namespace TreineMais.Web.Pages.Admin
 
             return RedirectToPage("Index");
         }
+
     }
 }

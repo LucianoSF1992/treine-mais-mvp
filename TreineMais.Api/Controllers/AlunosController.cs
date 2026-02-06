@@ -90,14 +90,18 @@ namespace TreineMais.Api.Controllers
             if (existente == null)
                 return NotFound();
 
+            if (aluno.User == null)
+                return BadRequest("Dados do usuário do aluno são obrigatórios.");
+
+            if (existente.User == null)
+                return BadRequest("Usuário vinculado ao aluno não encontrado.");
+
             existente.User.Nome = aluno.User.Nome;
             existente.User.Email = aluno.User.Email;
 
             if (!string.IsNullOrEmpty(aluno.User.Senha))
                 existente.User.Senha = aluno.User.Senha;
 
-            existente.Idade = aluno.Idade;
-            existente.Objetivo = aluno.Objetivo;
 
             await _context.SaveChangesAsync();
             return Ok(existente);
@@ -117,7 +121,11 @@ namespace TreineMais.Api.Controllers
             if (aluno == null)
                 return NotFound();
 
-            _context.Users.Remove(aluno.User);
+            if (aluno.User != null)
+            {
+                _context.Users.Remove(aluno.User);
+            }
+
             _context.Alunos.Remove(aluno);
 
             await _context.SaveChangesAsync();
