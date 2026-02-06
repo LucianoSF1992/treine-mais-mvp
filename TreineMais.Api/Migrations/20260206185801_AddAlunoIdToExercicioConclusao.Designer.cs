@@ -12,7 +12,7 @@ using TreineMais.Api.Data;
 namespace TreineMais.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260206185405_AddAlunoIdToExercicioConclusao")]
+    [Migration("20260206185801_AddAlunoIdToExercicioConclusao")]
     partial class AddAlunoIdToExercicioConclusao
     {
         /// <inheritdoc />
