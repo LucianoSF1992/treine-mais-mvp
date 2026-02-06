@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Json;
+using TreineMais.Web.ViewModels;
+
 
 namespace TreineMais.Web.Pages.Instrutor
 {
@@ -29,28 +31,5 @@ namespace TreineMais.Web.Pages.Instrutor
                 Objetivo = a.Objetivo
             }).ToList();
         }
-    }
-
-    public class AlunoViewModel
-    {
-        public int Id { get; set; }
-        public string? Nome { get; set; }
-        public string? Email { get; set; }
-        public int? Idade { get; set; }
-        public string? Objetivo { get; set; }
-    }
-
-    public class AlunoApiModel
-    {
-        public int Id { get; set; }
-        public int? Idade { get; set; }
-        public string? Objetivo { get; set; }
-        public UserApiModel User { get; set; } = new();
-    }
-
-    public class UserApiModel
-    {
-        public string? Nome { get; set; }
-        public string? Email { get; set; }
     }
 }
