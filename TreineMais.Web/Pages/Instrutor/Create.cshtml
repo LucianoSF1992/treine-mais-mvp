@@ -1,0 +1,47 @@
+@page
+@model TreineMais.Web.Pages.Instrutor.CreateModel
+
+<h2>Novo Aluno</h2>
+
+<form method="post" class="mt-3">
+
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input asp-for="Nome" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Senha</label>
+        <input asp-for="Senha" type="password" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Idade</label>
+        <input asp-for="Idade" type="number" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Objetivo</label>
+        <select asp-for="Objetivo" class="form-select">
+            <option value="">Selecione</option>
+            <option>Emagrecimento</option>
+            <option>Hipertrofia</option>
+            <option>Condicionamento físico</option>
+            <option>Reabilitação</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Salvar
+    </button>
+
+    <a asp-page="Index" class="btn btn-secondary ms-2">
+        Cancelar
+    </a>
+
+</form>
