@@ -32,7 +32,8 @@ else
                             </p>
 
                             <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" asp-for="@ex.Concluido" />
+                                <input class="form-check-input"              type="checkbox"
+                                       onclick="concluirExercicio(@ex.Id, @Model.AlunoId)" />
 
                                 <label class="form-check-label">
                                     Concluído ✅
@@ -53,3 +54,17 @@ else
         @Model.Resumo
     </p>
 }
+
+<!-- ✅ SCRIPT FICA AQUI, NO FINAL DO ARQUIVO -->
+<script>
+    function concluirExercicio(exercicioId, alunoId) {
+        fetch("http://localhost:5129/api/exercicio-conclusoes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                exercicioId: exercicioId,
+                alunoId: alunoId
+            })
+        });
+    }
+</script>

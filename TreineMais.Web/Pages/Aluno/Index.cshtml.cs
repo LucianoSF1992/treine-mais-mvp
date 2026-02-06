@@ -5,6 +5,8 @@ namespace TreineMais.Web.Pages.Aluno
 {
     public class IndexModel : PageModel
     {
+        public int AlunoId { get; set; } = 1; // MVP fixo
+
         public string NomeAluno { get; set; } = "Aluno MVP";
         public string DiaSemana { get; set; } = DateTime.Now.DayOfWeek.ToString();
 
@@ -16,10 +18,11 @@ namespace TreineMais.Web.Pages.Aluno
 
         public void OnGet()
         {
-            // MVP — dados mockados
+            // MVP — dados mockados COM ID
             Exercicios = new List<ExercicioViewModel>
             {
                 new() {
+                    Id = 1,
                     Nome = "Supino reto",
                     GrupoMuscular = "Peito",
                     Series = 4,
@@ -27,6 +30,7 @@ namespace TreineMais.Web.Pages.Aluno
                     Descanso = 60
                 },
                 new() {
+                    Id = 2,
                     Nome = "Agachamento",
                     GrupoMuscular = "Pernas",
                     Series = 4,
@@ -38,12 +42,13 @@ namespace TreineMais.Web.Pages.Aluno
 
         public void OnPost()
         {
-            // MVP: apenas mantém o estado do formulário
+            // MVP: mantém estado do formulário
         }
     }
 
     public class ExercicioViewModel
     {
+        public int Id { get; set; }   // 🔹 NOVO
         public string Nome { get; set; } = "";
         public string GrupoMuscular { get; set; } = "";
         public int Series { get; set; }
