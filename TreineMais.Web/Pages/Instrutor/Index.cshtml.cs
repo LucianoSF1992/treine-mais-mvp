@@ -7,8 +7,7 @@ namespace TreineMais.Web.Pages.Instrutor
     {
         public List<AlunoViewModel> Alunos { get; set; } = new();
 
-        // MVP: instrutor fixo (depois virá do login/JWT)
-        private const int InstrutorId = 2;
+        private const int InstrutorId = 2; // MVP
         private const string ApiBaseUrl = "http://localhost:5129";
 
         public async Task OnGetAsync()
@@ -32,7 +31,6 @@ namespace TreineMais.Web.Pages.Instrutor
         }
     }
 
-    // ===== ViewModels =====
     public class AlunoViewModel
     {
         public int Id { get; set; }
@@ -42,7 +40,6 @@ namespace TreineMais.Web.Pages.Instrutor
         public string? Objetivo { get; set; }
     }
 
-    // ===== API Model =====
     public class AlunoApiModel
     {
         public int Id { get; set; }

@@ -1,0 +1,35 @@
+@page
+@model TreineMais.Web.Pages.Instrutor.IndexModel
+
+<h2>Meus Alunos</h2>
+
+<a class="btn btn-primary mb-3" asp-page="Create">
+    + Novo Aluno
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Idade</th>
+            <th>Objetivo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var aluno in Model.Alunos)
+        {
+            <tr>
+                <td>@aluno.Nome</td>
+                <td>@aluno.Email</td>
+                <td>@aluno.Idade</td>
+                <td>@aluno.Objetivo</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@aluno.Id">Editar</a> |
+                    <a asp-page="Delete" asp-route-id="@aluno.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
