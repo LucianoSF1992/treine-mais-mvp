@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TreineMais.Api.Data;
 using TreineMais.Api.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace TreineMais.Api.Controllers
 {
