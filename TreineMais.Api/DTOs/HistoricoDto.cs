@@ -1,4 +1,4 @@
-public class HistoricoViewModel
+public class HistoricoDto
 {
     public string NomeExercicio { get; set; } = "";
     public string GrupoMuscular { get; set; } = "";

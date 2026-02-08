@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Json;
+using TreineMais.Web.ViewModels;
+
 
 
 namespace TreineMais.Web.Pages.Aluno
@@ -58,23 +60,5 @@ namespace TreineMais.Web.Pages.Aluno
         {
             // MVP: mantém estado do formulário
         }
-    }
-
-    public class ExercicioViewModel
-    {
-        public int Id { get; set; }   // 🔹 NOVO
-        public string Nome { get; set; } = "";
-        public string GrupoMuscular { get; set; } = "";
-        public int Series { get; set; }
-        public int Repeticoes { get; set; }
-        public int Descanso { get; set; }
-        public bool Concluido { get; set; }
-    }
-    public class HistoricoViewModel
-    {
-        public string NomeExercicio { get; set; } = "";
-        public string GrupoMuscular { get; set; } = "";
-        public DateTime DataExecucao { get; set; }
-        public bool Concluido { get; set; }
     }
 }
