@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http.Json;
+
 
 namespace TreineMais.Web.Pages.Aluno
 {
@@ -13,10 +15,13 @@ namespace TreineMais.Web.Pages.Aluno
         [BindProperty]
         public List<ExercicioViewModel> Exercicios { get; set; } = new();
 
+        public List<HistoricoViewModel> Historico { get; set; } = new();
+
+
         public string Resumo =>
             $"{Exercicios.Count(e => e.Concluido)} de {Exercicios.Count} exercícios concluídos hoje 💪";
 
-        public void OnGet()
+        public async Task OnGet()
         {
             // MVP — dados mockados COM ID
             Exercicios = new List<ExercicioViewModel>
@@ -38,6 +43,15 @@ namespace TreineMais.Web.Pages.Aluno
                     Descanso = 90
                 }
             };
+
+            using var http = new HttpClient();
+
+            var historicoApi = await http.GetFromJsonAsync<List<HistoricoViewModel>>(
+                "http://localhost:5129/api/historico/1");
+
+            if (historicoApi != null)
+                Historico = historicoApi;
+
         }
 
         public void OnPost()
