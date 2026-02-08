@@ -4,7 +4,6 @@ using System.Net.Http.Json;
 using TreineMais.Web.ViewModels;
 
 
-
 namespace TreineMais.Web.Pages.Aluno
 {
     public class IndexModel : PageModel
