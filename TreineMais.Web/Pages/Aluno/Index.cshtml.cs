@@ -70,4 +70,11 @@ namespace TreineMais.Web.Pages.Aluno
         public int Descanso { get; set; }
         public bool Concluido { get; set; }
     }
+    public class HistoricoViewModel
+    {
+        public string NomeExercicio { get; set; } = "";
+        public string GrupoMuscular { get; set; } = "";
+        public DateTime DataExecucao { get; set; }
+        public bool Concluido { get; set; }
+    }
 }
