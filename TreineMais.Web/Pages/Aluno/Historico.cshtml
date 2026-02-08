@@ -1,0 +1,39 @@
+@page
+@model TreineMais.Web.Pages.Aluno.HistoricoModel
+
+<h2>Histórico de Treinos 📅</h2>
+
+@if (!Model.Historico.Any())
+{
+    <div class="alert alert-info mt-3">
+        Nenhum treino registrado ainda.
+    </div>
+}
+else
+{
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Exercício</th>
+                <th>Grupo</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Historico)
+            {
+                <tr>
+                    <td>@item.DataExecucao.ToString("dd/MM/yyyy")</td>
+                    <td>@item.NomeExercicio</td>
+                    <td>@item.GrupoMuscular</td>
+                    <td>
+                        @(item.Concluido
+                            ? "✅ Concluído"
+                            : "❌ Não concluído")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

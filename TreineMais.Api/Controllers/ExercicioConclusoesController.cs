@@ -26,5 +26,24 @@ namespace TreineMais.Api.Controllers
 
             return Ok(conclusao);
         }
+
+        [HttpGet("aluno/{alunoId}")]
+        public async Task<IActionResult> GetPorAluno(int alunoId)
+        {
+            var historico = await _context.ExercicioConclusoes
+                .Where(x => x.AlunoId == alunoId)
+                .OrderByDescending(x => x.DataExecucao)
+                .Select(x => new
+                {
+                    NomeExercicio = x.Exercicio.Nome,
+                    GrupoMuscular = x.Exercicio.GrupoMuscular,
+                    x.DataExecucao,
+                    x.Concluido
+                })
+                .ToListAsync();
+
+            return Ok(historico);
+        }
+
     }
 }
