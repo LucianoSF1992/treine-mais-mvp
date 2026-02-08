@@ -21,12 +21,12 @@ namespace TreineMais.Api.Controllers
             var historico = await _context.ExercicioConclusoes
                 .Include(e => e.Exercicio)
                 .Where(e => e.AlunoId == alunoId)
-                .OrderByDescending(e => e.DataConclusao)
+                .OrderByDescending(e => e.DataExecucao)
                 .Select(e => new
                 {
                     e.Id,
                     Exercicio = e.Exercicio.Nome,
-                    e.DataConclusao
+                    e.DataExecucao,
                 })
                 .ToListAsync();
 
