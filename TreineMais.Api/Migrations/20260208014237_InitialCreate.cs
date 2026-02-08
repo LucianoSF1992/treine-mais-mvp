@@ -7,29 +7,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TreineMais.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAlunoIdToExercicioConclusao : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "ExercicioConclusoes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    AlunoId = table.Column<int>(type: "int", nullable: false),
-                    ExercicioId = table.Column<int>(type: "int", nullable: false),
-                    DataExecucao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Concluido = table.Column<bool>(type: "tinyint(1)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExercicioConclusoes", x => x.Id);
-                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -116,26 +99,65 @@ namespace TreineMais.Api.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "ExercicioConclusoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    ExercicioId = table.Column<int>(type: "int", nullable: false),
+                    DataExecucao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Concluido = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExercicioConclusoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExercicioConclusoes_Alunos_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Alunos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExercicioConclusoes_Exercicios_ExercicioId",
+                        column: x => x.ExercicioId,
+                        principalTable: "Exercicios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Alunos_UserId",
                 table: "Alunos",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExercicioConclusoes_AlunoId",
+                table: "ExercicioConclusoes",
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExercicioConclusoes_ExercicioId",
+                table: "ExercicioConclusoes",
+                column: "ExercicioId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Alunos");
-
-            migrationBuilder.DropTable(
                 name: "ExercicioConclusoes");
 
             migrationBuilder.DropTable(
-                name: "Exercicios");
+                name: "Treinos");
 
             migrationBuilder.DropTable(
-                name: "Treinos");
+                name: "Alunos");
+
+            migrationBuilder.DropTable(
+                name: "Exercicios");
 
             migrationBuilder.DropTable(
                 name: "Users");

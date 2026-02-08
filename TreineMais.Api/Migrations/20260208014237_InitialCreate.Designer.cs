@@ -12,8 +12,8 @@ using TreineMais.Api.Data;
 namespace TreineMais.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260206185801_AddAlunoIdToExercicioConclusao")]
-    partial class AddAlunoIdToExercicioConclusao
+    [Migration("20260208014237_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,6 +108,10 @@ namespace TreineMais.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("ExercicioId");
+
                     b.ToTable("ExercicioConclusoes");
                 });
 
@@ -164,6 +168,25 @@ namespace TreineMais.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TreineMais.Api.Models.ExercicioConclusao", b =>
+                {
+                    b.HasOne("TreineMais.Api.Models.Aluno", "Aluno")
+                        .WithMany()
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TreineMais.Api.Models.Exercicio", "Exercicio")
+                        .WithMany()
+                        .HasForeignKey("ExercicioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Exercicio");
                 });
 #pragma warning restore 612, 618
         }
