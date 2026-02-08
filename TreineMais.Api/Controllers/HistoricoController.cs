@@ -22,14 +22,6 @@ namespace TreineMais.Api.Controllers
                 .Include(e => e.Exercicio)
                 .Where(e => e.AlunoId == alunoId)
                 .OrderByDescending(e => e.DataExecucao)
-                .Select(x => new HistoricoDto
-                {
-                    NomeExercicio = x.Exercicio.Nome,
-                    GrupoMuscular = x.Exercicio.GrupoMuscular,
-                    DataExecucao = x.DataExecucao,
-                    Concluido = x.Concluido
-                })
-
                 .ToListAsync();
 
             return Ok(historico);
