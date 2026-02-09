@@ -47,5 +47,21 @@ namespace TreineMais.Api.Controllers
             return Ok(historico);
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> RemoverConclusao(int alunoId, int exercicioId)
+        {
+            var registro = await _context.ExercicioConclusoes
+                .FirstOrDefaultAsync(x =>
+                    x.AlunoId == alunoId &&
+                    x.ExercicioId == exercicioId);
+
+            if (registro == null)
+                return NotFound();
+
+            _context.ExercicioConclusoes.Remove(registro);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

@@ -32,8 +32,8 @@ else
                             </p>
 
                             <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox"
-                                       onclick="concluirExercicio(@ex.Id, @Model.AlunoId)" />
+                                <input class="form-check-input"      type="checkbox"
+                                       onclick="concluirExercicio(@ex.Id, @Model.AlunoId, this)" />
 
                                 <label class="form-check-label">
                                     Concluído ✅
@@ -57,17 +57,27 @@ else
 
 <!-- ✅ SCRIPT FICA AQUI, NO FINAL DO ARQUIVO -->
 <script>
-    function concluirExercicio(exercicioId, alunoId) {
-        fetch("http://localhost:5129/api/exercicio-conclusoes", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                exercicioId: exercicioId,
-                alunoId: alunoId
-            })
-        });
+    function concluirExercicio(exercicioId, alunoId, checkbox) {
+
+        if (checkbox.checked) {
+            // POST (marcar como concluído)
+            fetch("http://localhost:5129/api/exercicioconclusoes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    exercicioId: exercicioId,
+                    alunoId: alunoId
+                })
+            });
+        } else {
+            // DELETE (remover conclusão)
+            fetch(`http://localhost:5129/api/exercicioconclusoes?alunoId=${alunoId}&exercicioId=${exercicioId}`, {
+                method: "DELETE"
+            });
+        }
     }
 </script>
+
 
 <hr />
 
