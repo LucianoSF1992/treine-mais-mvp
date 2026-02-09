@@ -1,6 +1,6 @@
 public class ExercicioViewModel
 {
-    public int Id { get; set; }   // 🔹 NOVO
+    public int Id { get; set; } 
     public string Nome { get; set; } = "";
     public string GrupoMuscular { get; set; } = "";
     public int Series { get; set; }

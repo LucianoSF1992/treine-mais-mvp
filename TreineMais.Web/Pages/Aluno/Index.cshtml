@@ -32,8 +32,8 @@ else
                             </p>
 
                             <div class="form-check mt-2">
-                                <input class="form-check-input"      type="checkbox"
-                                       onclick="concluirExercicio(@ex.Id, @Model.AlunoId, this)" />
+                                <input type="checkbox" class="form-check-input"
+                                       onchange="toggleExercicio(@ex.Id, @Model.AlunoId, this)" @(ex.Concluido ? "checked" : "") />
 
                                 <label class="form-check-label">
                                     Concluído ✅
@@ -50,9 +50,9 @@ else
         </button>
     </form>
 
-    <p class="mt-3 fw-bold">
+    <h4 id="resumo" class="mt-3 fw-bold">
         @Model.Resumo
-    </p>
+    </h4>
 }
 
 <!-- ✅ SCRIPT FICA AQUI, NO FINAL DO ARQUIVO -->
@@ -78,6 +78,40 @@ else
     }
 </script>
 
+@section Scripts {
+<script>
+async function toggleExercicio(exercicioId, alunoId, checkbox) {
+
+    const url = "http://localhost:5129/api/exercicio-conclusoes";
+
+    if (checkbox.checked) {
+        await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                exercicioId: exercicioId,
+                alunoId: alunoId
+            })
+        });
+    } else {
+        await fetch(`${url}/${exercicioId}/${alunoId}`, {
+            method: "DELETE"
+        });
+    }
+
+    atualizarResumo();
+}
+
+function atualizarResumo() {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+    const total = checkboxes.length;
+    const concluidos = Array.from(checkboxes).filter(c => c.checked).length;
+
+    document.getElementById("resumo").innerText =
+        `${concluidos} de ${total} exercícios concluídos hoje 💪`;
+}
+</script>
+}
 
 <hr />
 
