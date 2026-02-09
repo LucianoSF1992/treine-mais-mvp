@@ -22,6 +22,11 @@ namespace TreineMais.Web.Pages.Aluno
         public string Resumo =>
             $"{Exercicios.Count(e => e.Concluido)} de {Exercicios.Count} exercícios concluídos hoje 💪";
 
+        public int PercentualConclusao =>
+            Exercicios.Count == 0
+                ? 0
+                : (int)((double)Exercicios.Count(e => e.Concluido) / Exercicios.Count * 100);
+
         public async Task OnGet()
         {
             // MVP — dados mockados COM ID

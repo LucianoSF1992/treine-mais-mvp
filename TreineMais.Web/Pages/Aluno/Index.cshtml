@@ -2,6 +2,24 @@
 @model TreineMais.Web.Pages.Aluno.IndexModel
 
 <h2>Olá, @Model.NomeAluno 👋</h2>
+
+<div class="mt-3">
+    <label class="fw-bold">
+        Progresso de hoje: @Model.PercentualConclusao%
+    </label>
+
+    <div class="progress" style="height: 25px;">
+        <div class="progress-bar bg-success"
+             role="progressbar"
+             style="width: @Model.PercentualConclusao%;"
+             aria-valuenow="@Model.PercentualConclusao"
+             aria-valuemin="0"
+             aria-valuemax="100">
+            @Model.PercentualConclusao%
+        </div>
+    </div>
+</div>
+
 <p class="text-muted">
     Treino de hoje — <strong>@Model.DiaSemana</strong>
 </p>
