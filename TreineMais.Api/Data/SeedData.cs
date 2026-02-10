@@ -17,7 +17,7 @@ namespace TreineMais.Api.Data
                 Tipo = "Admin"
             };
 
-            admin.Senha = passwordService.HashPassword(admin, "Admin@123");
+            admin.Senha = passwordService.HashPassword("123456");
 
             context.Users.Add(admin);
             context.SaveChanges();

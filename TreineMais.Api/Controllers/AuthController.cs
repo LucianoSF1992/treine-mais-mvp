@@ -33,11 +33,10 @@ namespace TreineMais.Api.Controllers
             var user = await _context.Users
     .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null)
+            if (user == null || string.IsNullOrEmpty(user.Senha))
                 return Unauthorized("Credenciais inválidas.");
 
             var senhaValida = _passwordService.VerifyPassword(request.Senha, user.Senha);
-
 
             if (!senhaValida)
                 return Unauthorized("Credenciais inválidas.");
