@@ -20,6 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<PasswordService>();
+
 var app = builder.Build();
 
 // Middleware
@@ -31,4 +33,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    var passwordService = services.GetRequiredService<PasswordService>();
+
+    SeedData.Initialize(context, passwordService);
+}
+
 app.Run();

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
 using TreineMais.Api.DTOs;
+using Microsoft.AspNetCore.Identity;
 
 namespace TreineMais.Api.Controllers
 {
@@ -9,12 +10,14 @@ namespace TreineMais.Api.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly PasswordService _passwordService;
 
-        public AuthController(AppDbContext context)
+        public AuthController(AppDbContext context, PasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto request)
@@ -25,15 +28,15 @@ namespace TreineMais.Api.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(u =>
-                    u.Email == request.Email &&
-                    u.Senha == request.Senha
-                );
+    .FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user == null)
-            {
                 return Unauthorized("Credenciais inválidas.");
-            }
+
+            var senhaValida = _passwordService.VerifyPassword(user, user.Senha, request.Senha);
+
+            if (!senhaValida)
+                return Unauthorized("Credenciais inválidas.");
 
             var response = new LoginResponseDto
             {
