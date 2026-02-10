@@ -1,21 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using TreineMais.Api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TreineMais.Api.Data;
+using TreineMais.Api.DTOs;
+using TreineMais.Api.Services;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TreineMais.Api.Services
 {
     public class PasswordService
     {
-        private readonly PasswordHasher<User> _hasher = new();
-
-        public string HashPassword(User user, string password)
+        public string HashPassword(string senha)
         {
-            return _hasher.HashPassword(user, password);
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(senha);
+            var hash = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
         }
 
-        public bool VerifyPassword(User user, string hashedPassword, string password)
+        public bool VerifyPassword(string senhaDigitada, string senhaHash)
         {
-            var result = _hasher.VerifyHashedPassword(user, hashedPassword, password);
-            return result == PasswordVerificationResult.Success;
+            var hashDigitado = HashPassword(senhaDigitada);
+            return hashDigitado == senhaHash;
         }
     }
 }

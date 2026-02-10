@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
 using TreineMais.Api.DTOs;
 using Microsoft.AspNetCore.Identity;
+using TreineMais.Api.Services;
+
 
 namespace TreineMais.Api.Controllers
 {
@@ -11,6 +13,7 @@ namespace TreineMais.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly PasswordService _passwordService;
+        private readonly AppDbContext _context;
 
         public AuthController(AppDbContext context, PasswordService passwordService)
         {
@@ -33,7 +36,8 @@ namespace TreineMais.Api.Controllers
             if (user == null)
                 return Unauthorized("Credenciais inválidas.");
 
-            var senhaValida = _passwordService.VerifyPassword(user, user.Senha, request.Senha);
+            var senhaValida = _passwordService.VerifyPassword(request.Senha, user.Senha);
+
 
             if (!senhaValida)
                 return Unauthorized("Credenciais inválidas.");
@@ -72,9 +76,10 @@ namespace TreineMais.Api.Controllers
             {
                 Nome = request.Nome,
                 Email = request.Email,
-                Senha = request.Senha,
+                Senha = _passwordService.HashPassword(request.Senha),
                 Tipo = request.Tipo
             };
+
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
