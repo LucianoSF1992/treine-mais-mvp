@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
+using TreineMais.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Registrar PasswordService
 builder.Services.AddScoped<PasswordService>();
 
 var app = builder.Build();
@@ -34,6 +36,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 app.MapControllers();
 
+// Seed automático
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
