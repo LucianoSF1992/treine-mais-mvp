@@ -45,5 +45,38 @@ namespace TreineMais.Api.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterRequestDto request)
+        {
+            if (string.IsNullOrEmpty(request.Nome) ||
+                string.IsNullOrEmpty(request.Email) ||
+                string.IsNullOrEmpty(request.Senha) ||
+                string.IsNullOrEmpty(request.Tipo))
+            {
+                return BadRequest("Todos os campos são obrigatórios.");
+            }
+
+            var userExists = await _context.Users
+                .AnyAsync(u => u.Email == request.Email);
+
+            if (userExists)
+            {
+                return BadRequest("Email já cadastrado.");
+            }
+
+            var user = new Models.User
+            {
+                Nome = request.Nome,
+                Email = request.Email,
+                Senha = request.Senha,
+                Tipo = request.Tipo
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok("Usuário cadastrado com sucesso.");
+        }
     }
 }
