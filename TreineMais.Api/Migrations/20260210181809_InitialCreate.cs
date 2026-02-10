@@ -134,9 +134,10 @@ namespace TreineMais.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExercicioConclusoes_AlunoId",
+                name: "IX_Aluno_Exercicio",
                 table: "ExercicioConclusoes",
-                column: "AlunoId");
+                columns: new[] { "AlunoId", "ExercicioId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExercicioConclusoes_ExercicioId",

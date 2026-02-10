@@ -13,5 +13,15 @@ namespace TreineMais.Api.Data
         public DbSet<Treino> Treinos { get; set; }
         public DbSet<Exercicio> Exercicios { get; set; }
         public DbSet<ExercicioConclusao> ExercicioConclusoes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ExercicioConclusao>()
+                .HasIndex(e => new { e.AlunoId, e.ExercicioId })
+                .HasDatabaseName("IX_Aluno_Exercicio")
+                .IsUnique();
+        }
     }
 }

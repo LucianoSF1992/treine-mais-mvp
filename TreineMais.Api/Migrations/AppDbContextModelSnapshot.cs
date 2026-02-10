@@ -105,9 +105,11 @@ namespace TreineMais.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlunoId");
-
                     b.HasIndex("ExercicioId");
+
+                    b.HasIndex("AlunoId", "ExercicioId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Aluno_Exercicio");
 
                     b.ToTable("ExercicioConclusoes");
                 });

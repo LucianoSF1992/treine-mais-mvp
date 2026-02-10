@@ -12,7 +12,7 @@ using TreineMais.Api.Data;
 namespace TreineMais.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260208014237_InitialCreate")]
+    [Migration("20260210181809_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -108,9 +108,11 @@ namespace TreineMais.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlunoId");
-
                     b.HasIndex("ExercicioId");
+
+                    b.HasIndex("AlunoId", "ExercicioId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Aluno_Exercicio");
 
                     b.ToTable("ExercicioConclusoes");
                 });
