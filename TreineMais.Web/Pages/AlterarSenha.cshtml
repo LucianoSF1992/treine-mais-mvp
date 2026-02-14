@@ -1,0 +1,16 @@
+@page
+@model AlterarSenhaModel
+
+<h3>Alterar Senha</h3>
+
+<form method="post">
+    <input type="password" asp-for="SenhaAtual" placeholder="Senha Atual" class="form-control mb-2"/>
+    <input type="password" asp-for="NovaSenha" placeholder="Nova Senha" class="form-control mb-2"/>
+
+    <button class="btn btn-primary">Alterar</button>
+</form>
+
+@if(Model.Mensagem != null)
+{
+    <p>@Model.Mensagem</p>
+}

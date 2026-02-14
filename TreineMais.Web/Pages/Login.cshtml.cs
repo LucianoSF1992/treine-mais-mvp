@@ -51,6 +51,10 @@ namespace TreineMais.Web.Pages
                 return RedirectToPage("/Instrutor/Index");
 
             return RedirectToPage("/Aluno/Index");
+
+            HttpContext.Session.SetString("UsuarioNome", usuario.Nome);
+            HttpContext.Session.SetString("UsuarioEmail", usuario.Email);
+            HttpContext.Session.SetString("UsuarioTipo", usuario.Tipo);
         }
     }
 }
