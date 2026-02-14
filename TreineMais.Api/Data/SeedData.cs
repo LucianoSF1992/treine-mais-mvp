@@ -10,6 +10,8 @@ namespace TreineMais.Api.Data
             if (context.Users.Any())
                 return;
 
+            var senhaHash = passwordService.HashPassword("123456");
+
             var admin = new User
             {
                 Nome = "Administrador",
@@ -17,8 +19,6 @@ namespace TreineMais.Api.Data
                 Senha = senhaHash,
                 Tipo = "Admin"
             };
-
-            admin.Senha = passwordService.HashPassword(request.Senha);
 
             context.Users.Add(admin);
             context.SaveChanges();
