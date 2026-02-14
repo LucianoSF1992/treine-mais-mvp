@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 public class AlterarSenhaModel : PageModel
 {
     [BindProperty]
-    public string SenhaAtual { get; set; }
+    public string? SenhaAtual { get; set; }
 
     [BindProperty]
-    public string NovaSenha { get; set; }
+    public string? NovaSenha { get; set; }
 
-    public string Mensagem { get; set; }
+    public string? Mensagem { get; set; }
 
     public void OnPost()
     {
