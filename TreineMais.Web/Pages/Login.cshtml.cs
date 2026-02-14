@@ -44,10 +44,10 @@ namespace TreineMais.Web.Pages
                 return Page();
             }
 
-            if (usuario.Tipo == "ADMIN")
+            if (usuario.Tipo.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                 return RedirectToPage("/Admin/Index");
 
-            if (usuario.Tipo == "INSTRUTOR")
+            if (usuario.Tipo.Equals("Instrutor", StringComparison.OrdinalIgnoreCase))
                 return RedirectToPage("/Instrutor/Index");
 
             return RedirectToPage("/Aluno/Index");
