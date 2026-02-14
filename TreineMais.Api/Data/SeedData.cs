@@ -14,10 +14,11 @@ namespace TreineMais.Api.Data
             {
                 Nome = "Administrador",
                 Email = "admin@treinemais.com",
+                Senha = senhaHash,
                 Tipo = "Admin"
             };
 
-            admin.Senha = passwordService.HashPassword("123456");
+            admin.Senha = passwordService.HashPassword(request.Senha);
 
             context.Users.Add(admin);
             context.SaveChanges();
