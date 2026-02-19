@@ -20,33 +20,38 @@
 
     <!-- HEADER -->
     <header class="navbar navbar-dark bg-primary">
-        <div class="container-fluid">
+        <div class="container-fluid d-flex justify-content-between">
+
+            <!-- Logo -->
             <span class="navbar-brand">
                 🏋️ Treine+
             </span>
+
+            <!-- Menu Direita -->
+            <div style="color:white; display:flex; gap:15px; align-items:center;">
+
+                @{
+                    var nome = HttpContextAccessor.HttpContext?.Session.GetString("UsuarioNome");
+                }
+
+                @if (!string.IsNullOrEmpty(nome))
+                {
+                    <span>👤 @nome</span>
+
+                    <a href="/AlterarSenha" style="color:white;">
+                        Alterar Senha
+                    </a>
+
+                    <a href="/Logout" style="color:white;">
+                        Sair
+                    </a>
+                }
+
+            </div>
+
         </div>
-
-        <div style="color:white; display:flex; gap:15px; align-items:center;">
-
-            @{
-                var nome = HttpContextAccessor.HttpContext?.Session.GetString("UsuarioNome");
-            }
-
-            @if (!string.IsNullOrEmpty(nome))
-            {
-                <span>👤 @nome</span>
-
-                <a href="/AlterarSenha" style="color:white;">
-                    Alterar Senha
-                </a>
-
-                <a href="/Logout" style="color:white;">
-                    Sair
-                </a>
-            }
-        </div>
-
     </header>
+
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="container my-4 flex-fill">

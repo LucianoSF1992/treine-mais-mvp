@@ -44,6 +44,12 @@ namespace TreineMais.Web.Pages
                 return Page();
             }
 
+            // ✅ SALVA SESSÃO PRIMEIRO
+            HttpContext.Session.SetString("UsuarioNome", usuario.Nome ?? "");
+            HttpContext.Session.SetString("UsuarioEmail", usuario.Email ?? "");
+            HttpContext.Session.SetString("UsuarioTipo", usuario.Tipo ?? "");
+
+            // ✅ DEPOIS REDIRECIONA
             if (usuario.Tipo.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                 return RedirectToPage("/Admin/Index");
 
@@ -52,9 +58,6 @@ namespace TreineMais.Web.Pages
 
             return RedirectToPage("/Aluno/Index");
 
-            HttpContext.Session.SetString("UsuarioNome", usuario.Nome);
-            HttpContext.Session.SetString("UsuarioEmail", usuario.Email);
-            HttpContext.Session.SetString("UsuarioTipo", usuario.Tipo);
         }
     }
 }
