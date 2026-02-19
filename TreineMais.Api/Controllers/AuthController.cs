@@ -71,14 +71,15 @@ namespace TreineMais.Api.Controllers
                 return BadRequest("Email já cadastrado.");
             }
 
+            var senhaHash = _passwordService.HashPassword(request.Senha);
+
             var user = new Models.User
             {
                 Nome = request.Nome,
                 Email = request.Email,
-                Senha = _passwordService.HashPassword(request.Senha),
+                Senha = senhaHash,
                 Tipo = request.Tipo
             };
-
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
