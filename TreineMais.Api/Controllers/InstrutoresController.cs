@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
 using TreineMais.Api.Models;
-
+using TreineMais.Api.Services;
 
 namespace TreineMais.Api.Controllers
 {
