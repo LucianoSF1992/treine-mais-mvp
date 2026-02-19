@@ -1,16 +1,56 @@
 @page
 @model AlterarSenhaModel
 
-<h3>Alterar Senha</h3>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
 
-<form method="post">
-    <input type="password" asp-for="SenhaAtual" placeholder="Senha Atual" class="form-control mb-2"/>
-    <input type="password" asp-for="NovaSenha" placeholder="Nova Senha" class="form-control mb-2"/>
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">🔒 Alterar Senha</h5>
+            </div>
 
-    <button class="btn btn-primary">Alterar</button>
-</form>
+            <div class="card-body">
 
-@if(Model.Mensagem != null)
-{
-    <p>@Model.Mensagem</p>
-}
+                @if (!string.IsNullOrEmpty(Model.Mensagem))
+                {
+                    <div class="alert alert-info">
+                        @Model.Mensagem
+                    </div>
+                }
+
+                <form method="post">
+
+                    <!-- Senha Atual -->
+                    <div class="mb-3">
+                        <label class="form-label">Senha Atual</label>
+                        <input asp-for="SenhaAtual"                   type="password"                          class="form-control" />
+                    </div>
+
+                    <!-- Nova Senha -->
+                    <div class="mb-4">
+                        <label class="form-label">Nova Senha</label>
+                        <input asp-for="NovaSenha"       type="password"             class="form-control" />
+                    </div>
+
+                    <!-- BOTÕES -->
+                    <div class="d-flex justify-content-between">
+
+                        <!-- Voltar -->
+                        <a href="javascript:history.back()"                class="btn btn-outline-secondary">
+                            ← Voltar
+                        </a>
+
+                        <!-- Salvar -->
+                        <button type="submit"                        class="btn btn-primary">
+                            💾 Salvar Nova Senha
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
