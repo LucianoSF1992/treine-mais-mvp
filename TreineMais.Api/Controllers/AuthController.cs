@@ -36,7 +36,11 @@ namespace TreineMais.Api.Controllers
             if (user == null || string.IsNullOrEmpty(user.Senha))
                 return Unauthorized("Credenciais inválidas.");
 
-            var senhaValida = _passwordService.VerifyPassword(request.Senha, user.Senha);
+            var senhaValida = _passwordService.VerifyPassword(
+    user,
+    user.Senha!,
+    request.Senha
+);
 
             if (!senhaValida)
                 return Unauthorized("Credenciais inválidas.");
