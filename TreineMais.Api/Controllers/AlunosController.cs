@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
 using TreineMais.Api.Models;
+using TreineMais.Api.Services;
 
 namespace TreineMais.Api.Controllers
 {
@@ -10,11 +11,16 @@ namespace TreineMais.Api.Controllers
     public class AlunosController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly PasswordService _passwordService;
 
-        public AlunosController(AppDbContext context)
+        public AlunosController(
+            AppDbContext context,
+            PasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
+
 
         // ======================================================
         // LISTAR ALUNOS POR INSTRUTOR
@@ -65,6 +71,9 @@ namespace TreineMais.Api.Controllers
 
             aluno.User.Tipo = "ALUNO";
 
+            // ✅ HASH DA SENHA
+            aluno.User.Senha = _passwordService.HashPassword(aluno.User.Senha);
+
             _context.Users.Add(aluno.User);
             await _context.SaveChangesAsync();
 
@@ -75,6 +84,7 @@ namespace TreineMais.Api.Controllers
 
             return Ok(aluno);
         }
+
 
         // ======================================================
         // ATUALIZAR ALUNO
@@ -99,13 +109,16 @@ namespace TreineMais.Api.Controllers
             existente.User.Nome = aluno.User.Nome;
             existente.User.Email = aluno.User.Email;
 
+            // ✅ HASH se senha informada
             if (!string.IsNullOrEmpty(aluno.User.Senha))
-                existente.User.Senha = aluno.User.Senha;
-
+            {
+                existente.User.Senha = _passwordService.HashPassword(aluno.User.Senha);
+            }
 
             await _context.SaveChangesAsync();
             return Ok(existente);
         }
+
 
         // ======================================================
         // EXCLUIR ALUNO
