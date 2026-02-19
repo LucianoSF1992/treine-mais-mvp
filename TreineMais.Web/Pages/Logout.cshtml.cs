@@ -1,14 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TreineMais.Web.Pages
+public class LogoutModel : PageModel
 {
-    public class LogoutModel : PageModel
+    public IActionResult OnGet()
     {
-        public IActionResult OnGet()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToPage("/Login");
-        }
+        HttpContext.Session.Clear();
+        return RedirectToPage("/Login");
     }
 }

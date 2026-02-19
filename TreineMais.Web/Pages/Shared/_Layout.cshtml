@@ -26,17 +26,21 @@
             </span>
         </div>
 
-        <div style="float:right; display:flex; gap:15px; align-items:center;">
+        <div style="color:white; display:flex; gap:15px; align-items:center;">
 
-            @if (!string.IsNullOrEmpty(nomeUsuario))
+            @{
+                var nome = HttpContextAccessor.HttpContext?.Session.GetString("UsuarioNome");
+            }
+
+            @if (!string.IsNullOrEmpty(nome))
             {
-                <span>👤 @nomeUsuario</span>
+                <span>👤 @nome</span>
 
-                <a class="btn btn-sm btn-outline-light" href="/AlterarSenha">
+                <a href="/AlterarSenha" style="color:white;">
                     Alterar Senha
                 </a>
 
-                <a class="btn btn-sm btn-danger" href="/Logout">
+                <a href="/Logout" style="color:white;">
                     Sair
                 </a>
             }
