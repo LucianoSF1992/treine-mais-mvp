@@ -55,6 +55,9 @@ namespace TreineMais.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(User instrutor)
         {
+            if (string.IsNullOrEmpty(instrutor.Senha))
+                return BadRequest("Senha é obrigatória.");
+
             var usuario = new User
             {
                 Nome = instrutor.Nome,
