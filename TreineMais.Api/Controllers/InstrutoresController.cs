@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
 using TreineMais.Api.Models;
 
+
 namespace TreineMais.Api.Controllers
 {
     [ApiController]
@@ -10,10 +11,14 @@ namespace TreineMais.Api.Controllers
     public class InstrutoresController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly PasswordService _passwordService;
 
-        public InstrutoresController(AppDbContext context)
+        public InstrutoresController(
+    AppDbContext context,
+    PasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
 
         // ======================================================
@@ -50,27 +55,20 @@ namespace TreineMais.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(User instrutor)
         {
-            if (
-                string.IsNullOrEmpty(instrutor.Nome)
-                || string.IsNullOrEmpty(instrutor.Email)
-                || string.IsNullOrEmpty(instrutor.Senha)
-            )
+            var usuario = new User
             {
-                return BadRequest("Nome, Email e Senha são obrigatórios.");
-            }
+                Nome = instrutor.Nome,
+                Email = instrutor.Email,
+                Tipo = "INSTRUTOR",
+                Senha = _passwordService.HashPassword(instrutor.Senha)
+            };
 
-            var emailExiste = await _context.Users.AnyAsync(u => u.Email == instrutor.Email);
-
-            if (emailExiste)
-                return BadRequest("Já existe um usuário com este email.");
-
-            instrutor.Tipo = "INSTRUTOR";
-
-            _context.Users.Add(instrutor);
+            _context.Users.Add(usuario);
             await _context.SaveChangesAsync();
 
-            return Ok(instrutor);
+            return Ok(usuario);
         }
+
 
         // ======================================================
         // ATUALIZAR INSTRUTOR
@@ -95,8 +93,9 @@ namespace TreineMais.Api.Controllers
             // Atualiza senha apenas se foi informada
             if (!string.IsNullOrEmpty(instrutor.Senha))
             {
-                existente.Senha = instrutor.Senha;
+                existente.Senha = _passwordService.HashPassword(instrutor.Senha);
             }
+
 
             await _context.SaveChangesAsync();
             return Ok(existente);
