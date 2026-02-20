@@ -13,6 +13,9 @@ namespace TreineMais.Api.Data
         public DbSet<Treino> Treinos { get; set; }
         public DbSet<Exercicio> Exercicios { get; set; }
         public DbSet<ExercicioConclusao> ExercicioConclusoes { get; set; }
+        public DbSet<Treino> Treino { get; set; }
+        public DbSet<TreinoAluno> TreinoAlunos { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

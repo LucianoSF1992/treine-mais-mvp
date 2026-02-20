@@ -116,44 +116,46 @@ namespace TreineMais.Api.Controllers
             if (instrutor == null || instrutor.Tipo != "INSTRUTOR")
                 return NotFound();
 
-            // Buscar alunos vinculados ao instrutor
+            // Buscar alunos do instrutor
             var alunos = await _context.Alunos
                 .Where(a => a.InstrutorId == id)
                 .ToListAsync();
 
-            foreach (var aluno in alunos)
+            var alunoIds = alunos.Select(a => a.Id).ToList();
+
+            // Buscar vínculos treino-aluno
+            var treinoAlunos = await _context.TreinoAlunos
+                .Where(ta => alunoIds.Contains(ta.AlunoId))
+                .ToListAsync();
+
+            var treinoIds = treinoAlunos.Select(ta => ta.TreinoId).Distinct().ToList();
+
+            // Buscar treinos do instrutor
+            var treinos = await _context.Treinos
+                .Where(t => treinoIds.Contains(t.Id))
+                .ToListAsync();
+
+            foreach (var treino in treinos)
             {
-                // Buscar treinos do aluno
-                var treinos = await _context.Treinos
-                    .Where(t => t.AlunoId == aluno.Id)
+                var exercicios = await _context.Exercicios
+                    .Where(e => e.TreinoId == treino.Id)
                     .ToListAsync();
 
-                foreach (var treino in treinos)
+                foreach (var exercicio in exercicios)
                 {
-                    // Buscar exercícios do treino
-                    var exercicios = await _context.Exercicios
-                        .Where(e => e.TreinoId == treino.Id)
+                    var conclusoes = await _context.ExercicioConclusoes
+                        .Where(c => c.ExercicioId == exercicio.Id)
                         .ToListAsync();
 
-                    foreach (var exercicio in exercicios)
-                    {
-                        // Excluir conclusões do exercício
-                        var conclusoes = await _context.ExercicioConclusoes
-                            .Where(c => c.ExercicioId == exercicio.Id)
-                            .ToListAsync();
-
-                        _context.ExercicioConclusoes.RemoveRange(conclusoes);
-                    }
-
-                    _context.Exercicios.RemoveRange(exercicios);
+                    _context.ExercicioConclusoes.RemoveRange(conclusoes);
                 }
 
-                _context.Treinos.RemoveRange(treinos);
+                _context.Exercicios.RemoveRange(exercicios);
             }
 
+            _context.TreinoAlunos.RemoveRange(treinoAlunos);
+            _context.Treinos.RemoveRange(treinos);
             _context.Alunos.RemoveRange(alunos);
-
-            // Por fim, excluir o instrutor
             _context.Users.Remove(instrutor);
 
             await _context.SaveChangesAsync();
