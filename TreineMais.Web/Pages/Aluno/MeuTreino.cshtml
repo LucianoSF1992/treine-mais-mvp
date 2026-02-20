@@ -1,0 +1,41 @@
+@page
+@model TreineMais.Web.Pages.Aluno.MeuTreinoModel
+
+<h2 class="mb-4">Meu Treino</h2>
+
+@if (Model.Treinos == null || !Model.Treinos.Any())
+{
+    <div class="alert alert-info">
+        Nenhum treino disponível hoje.
+    </div>
+}
+else
+{
+    foreach (var treino in Model.Treinos)
+    {
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <strong>@treino.Nome</strong> - @treino.DiaSemana
+            </div>
+
+            <div class="card-body">
+                @foreach (var exercicio in treino.Exercicios)
+                {
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <strong>@exercicio.Nome</strong><br />
+                            <small>@exercicio.GrupoMuscular</small>
+                        </div>
+
+                        <form method="post" asp-page-handler="Concluir">
+                            <input type="hidden" name="ExercicioId" value="@exercicio.Id" />
+                            <button class="btn btn-success btn-sm">
+                                Concluir
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}
