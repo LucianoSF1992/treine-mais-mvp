@@ -50,10 +50,10 @@ namespace TreineMais.Web.Pages
             HttpContext.Session.SetString("UsuarioTipo", usuario.Tipo ?? "");
 
             // ✅ DEPOIS REDIRECIONA
-            if (usuario.Tipo.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(usuario.Tipo, "Admin", StringComparison.OrdinalIgnoreCase))
                 return RedirectToPage("/Admin/Index");
 
-            if (usuario.Tipo.Equals("Instrutor", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(usuario.Tipo, "Instrutor", StringComparison.OrdinalIgnoreCase))
                 return RedirectToPage("/Instrutor/Index");
 
             return RedirectToPage("/Aluno/Index");
