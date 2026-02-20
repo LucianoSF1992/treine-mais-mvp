@@ -20,7 +20,26 @@ namespace TreineMais.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> ConcluirExercicio([FromBody] ExercicioConclusao conclusao)
         {
-            conclusao.DataExecucao = DateTime.Now;
+            // ✅ Valida se exercício existe
+            var exercicioExiste = await _context.Exercicios
+                .AnyAsync(e => e.Id == conclusao.ExercicioId);
+
+            if (!exercicioExiste)
+                return NotFound("Exercício não encontrado.");
+
+            // ✅ Evita duplicidade no mesmo dia
+            var hoje = DateTime.UtcNow.Date;
+
+            var jaConcluidoHoje = await _context.ExercicioConclusoes
+                .AnyAsync(x =>
+                    x.AlunoId == conclusao.AlunoId &&
+                    x.ExercicioId == conclusao.ExercicioId &&
+                    x.DataExecucao.Date == hoje);
+
+            if (jaConcluidoHoje)
+                return BadRequest("Exercício já foi concluído hoje.");
+
+            conclusao.DataExecucao = DateTime.UtcNow;
             conclusao.Concluido = true;
 
             _context.ExercicioConclusoes.Add(conclusao);
@@ -50,13 +69,16 @@ namespace TreineMais.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> RemoverConclusao(int alunoId, int exercicioId)
         {
+            var hoje = DateTime.UtcNow.Date;
+
             var registro = await _context.ExercicioConclusoes
                 .FirstOrDefaultAsync(x =>
                     x.AlunoId == alunoId &&
-                    x.ExercicioId == exercicioId);
+                    x.ExercicioId == exercicioId &&
+                    x.DataExecucao.Date == hoje);
 
             if (registro == null)
-                return NotFound();
+                return NotFound("Nenhuma conclusão encontrada hoje.");
 
             _context.ExercicioConclusoes.Remove(registro);
             await _context.SaveChangesAsync();
