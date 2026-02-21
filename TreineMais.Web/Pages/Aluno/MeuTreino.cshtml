@@ -19,20 +19,23 @@ else
             </div>
 
             <div class="card-body">
-                @foreach (var exercicio in treino.Exercicios)
+                @foreach (var ex in Model.Exercicios)
                 {
-                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                        <div>
-                            <strong>@exercicio.Nome</strong><br />
-                            <small>@exercicio.GrupoMuscular</small>
-                        </div>
+                    <div class="card mb-2 p-2">
+                        <strong>@ex.Nome</strong>
+                        <br />
+                        <small>@ex.GrupoMuscular</small>
 
-                        <form method="post" asp-page-handler="Concluir">
-                            <input type="hidden" name="ExercicioId" value="@exercicio.Id" />
-                            <button class="btn btn-success btn-sm">
+                        @if (ex.Concluido)
+                        {
+                            <span class="badge bg-success">✔ Concluído</span>
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary btn-sm">
                                 Concluir
                             </button>
-                        </form>
+                        }
                     </div>
                 }
             </div>

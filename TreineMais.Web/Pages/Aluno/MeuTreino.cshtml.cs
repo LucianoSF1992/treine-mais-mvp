@@ -14,6 +14,7 @@ namespace TreineMais.Web.Pages.Aluno
         }
 
         public List<TreinoDto> Treinos { get; set; } = new();
+        public List<ExercicioTreinoDto> Exercicios { get; set; } = new();
 
         public int AlunoId => int.Parse(User.FindFirst("UserId").Value);
 
@@ -24,6 +25,9 @@ namespace TreineMais.Web.Pages.Aluno
         {
             Treinos = await _http.GetFromJsonAsync<List<TreinoDto>>(
                 $"api/treinos/aluno/{AlunoId}");
+
+            Exercicios = await _http.GetFromJsonAsync<List<ExercicioTreinoDto>>(
+    $"api/exercicios/treino/{TreinoId}/aluno/{AlunoId}");
         }
 
         // ===============================

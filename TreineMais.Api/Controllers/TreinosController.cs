@@ -70,5 +70,27 @@ namespace TreineMais.Api.Controllers
 
             return Ok(treinos);
         }
+
+        [HttpGet("treino/{treinoId}/aluno/{alunoId}")]
+        public async Task<IActionResult> GetExerciciosTreinoAluno(int treinoId, int alunoId)
+        {
+            var exercicios = await _context.Exercicios
+                .Where(e => e.TreinoId == treinoId)
+                .Select(e => new ExercicioTreinoDto
+                {
+                    ExercicioId = e.Id,
+                    Nome = e.Nome,
+                    GrupoMuscular = e.GrupoMuscular,
+
+                    Concluido = _context.ExercicioConclusoes
+                        .Any(c =>
+                            c.ExercicioId == e.Id &&
+                            c.AlunoId == alunoId &&
+                            c.Concluido)
+                })
+                .ToListAsync();
+
+            return Ok(exercicios);
+        }
     }
 }
