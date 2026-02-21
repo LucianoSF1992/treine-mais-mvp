@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 public class CriarTreinoModel : PageModel
 {
     private readonly HttpClient _http;

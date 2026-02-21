@@ -11,7 +11,7 @@ namespace TreineMais.Api.DTOs
         public List<ExercicioDto> Exercicios { get; set; } = new();
     }
 
-    public class ExercicioDto
+    public class ExercicioDtoCompleto
     {
         public int ExercicioId { get; set; }
         public int Series { get; set; }
