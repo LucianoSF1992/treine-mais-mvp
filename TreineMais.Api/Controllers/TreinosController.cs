@@ -12,6 +12,16 @@ namespace TreineMais.Api.Controllers
     {
         private readonly AppDbContext _context;
 
+        private int GetUserId()
+        {
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                throw new Exception("Usuário não autenticado");
+
+            return int.Parse(userIdClaim);
+        }
+
         public TreinosController(AppDbContext context)
         {
             _context = context;
