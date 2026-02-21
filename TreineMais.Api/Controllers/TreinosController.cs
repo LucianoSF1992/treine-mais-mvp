@@ -95,16 +95,26 @@ namespace TreineMais.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CriarTreino([FromBody] CreateTreinoDto dto)
+        public async Task<IActionResult> Create(CreateTreinoDto dto)
         {
             var treino = new Treino
             {
                 Nome = dto.Nome,
-                DiaSemana = dto.DiaSemana,
-                AlunoId = dto.AlunoId
+                Descricao = dto.Descricao,
+                InstrutorId = GetUserId()
             };
 
             _context.Treinos.Add(treino);
+            await _context.SaveChangesAsync();
+
+            var treinoAluno = new TreinoAluno
+            {
+                TreinoId = treino.Id,
+                AlunoId = dto.AlunoId,
+                DiaSemana = dto.DiaSemana
+            };
+
+            _context.TreinoAlunos.Add(treinoAluno);
             await _context.SaveChangesAsync();
 
             return Ok();

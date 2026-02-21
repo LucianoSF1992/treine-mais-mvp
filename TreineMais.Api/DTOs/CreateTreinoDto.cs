@@ -1,8 +1,11 @@
-namespace TreineMais.Api.DTOs.Treinos;
-
-public class CreateTreinoDto
+namespace TreineMais.Api.DTOs
 {
-    public string Nome { get; set; } = "";
-    public string DiaSemana { get; set; } = "";
-    public int AlunoId { get; set; }
+    public class CreateTreinoDto
+    {
+        public string Nome { get; set; } = string.Empty;
+        public string? Descricao { get; set; }
+
+        public int AlunoId { get; set; }
+        public string? DiaSemana { get; set; }
+    }
 }
