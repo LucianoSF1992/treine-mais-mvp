@@ -1,122 +1,141 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TreineMais.Api.Data;
-using TreineMais.Api.Models;
 using TreineMais.Api.DTOs;
+using TreineMais.Api.Models;
 
 namespace TreineMais.Api.Controllers
 {
     [ApiController]
-    [Route("api/treinos")]
+    [Route("api/[controller]")]
+    [Authorize]
     public class TreinosController : ControllerBase
     {
         private readonly AppDbContext _context;
-
-        private int GetUserId()
-        {
-            var userIdClaim = User.FindFirst("UserId")?.Value;
-
-            if (string.IsNullOrEmpty(userIdClaim))
-                throw new Exception("Usuário não autenticado");
-
-            return int.Parse(userIdClaim);
-        }
 
         public TreinosController(AppDbContext context)
         {
             _context = context;
         }
-        // POST: api/treinos
-        [HttpPost]
-        public async Task<IActionResult> CriarTreino(Treino treino)
+
+        // =====================================================
+        // 🔐 HELPER — PEGAR ID DO USUÁRIO LOGADO
+        // =====================================================
+        private int GetUserId()
         {
-            if (string.IsNullOrEmpty(treino.Nome))
-                return BadRequest("Nome do treino é obrigatório");
-
-            _context.Treinos.Add(treino);
-            await _context.SaveChangesAsync();
-
-            return Ok(treino);
+            return int.Parse(User.FindFirst("UserId")!.Value);
         }
-        // GET: api/treinos/instrutor/5
-        [HttpGet("instrutor/{instrutorId}")]
-        public async Task<IActionResult> ListarPorInstrutor(int instrutorId)
+
+        // =====================================================
+        // 🥇 LISTAR TREINOS DO ALUNO LOGADO
+        // =====================================================
+        [HttpGet("meus")]
+        public async Task<ActionResult<List<TreinoDto>>> GetMeusTreinos()
         {
-            var treinos = await _context.Treinos
-                .Where(t => t.InstrutorId == instrutorId)
-                .ToListAsync();
+            var alunoId = GetUserId();
 
-            return Ok(treinos);
-        }
-        // POST: api/treinos/vincular-aluno
-        [HttpPost("vincular-aluno")]
-        public async Task<IActionResult> VincularAluno(int treinoId, int alunoId)
-        {
-            var treinoExiste = await _context.Treinos.AnyAsync(t => t.Id == treinoId);
-            var alunoExiste = await _context.Alunos.AnyAsync(a => a.Id == alunoId);
-
-            if (!treinoExiste || !alunoExiste)
-                return NotFound("Treino ou aluno não encontrado");
-
-            var vinculo = new TreinoAluno
-            {
-                TreinoId = treinoId,
-                AlunoId = alunoId
-            };
-
-            _context.TreinoAlunos.Add(vinculo);
-            await _context.SaveChangesAsync();
-
-            return Ok(vinculo);
-        }
-        // GET: api/treinos/aluno/3
-        [HttpGet("aluno/{alunoId}")]
-        public async Task<IActionResult> ListarTreinosAluno(int alunoId)
-        {
             var treinos = await _context.TreinoAlunos
                 .Where(ta => ta.AlunoId == alunoId)
                 .Include(ta => ta.Treino)
-                .Select(ta => ta.Treino)
-                .ToListAsync();
-
-            return Ok(treinos);
-        }
-
-        [HttpGet("treino/{treinoId}/aluno/{alunoId}")]
-        public async Task<IActionResult> GetExerciciosTreinoAluno(int treinoId, int alunoId)
-        {
-            var exercicios = await _context.Exercicios
-                .Where(e => e.TreinoId == treinoId)
-                .Select(e => new ExercicioTreinoDto
+                    .ThenInclude(t => t.ExerciciosTreino)
+                .Select(ta => new TreinoDto
                 {
-                    ExercicioId = e.Id,
-                    Nome = e.Nome ?? "",
-                    GrupoMuscular = e.GrupoMuscular ?? "",
-
-                    Concluido = _context.ExercicioConclusoes
-                        .Any(c =>
-                            c.ExercicioId == e.Id &&
-                            c.AlunoId == alunoId &&
-                            c.Concluido)
+                    Id = ta.Treino.Id,
+                    Nome = ta.Treino.Nome,
+                    Descricao = ta.Treino.Descricao,
+                    Exercicios = ta.Treino.ExerciciosTreino.Select(et => new ExercicioTreinoDto
+                    {
+                        Id = et.Id,
+                        ExercicioId = et.ExercicioId,
+                        Series = et.Series,
+                        Repeticoes = et.Repeticoes
+                    }).ToList()
                 })
                 .ToListAsync();
 
-            return Ok(exercicios);
+            return treinos;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateTreinoDto dto)
+        // =====================================================
+        // 🥈 LISTAR TREINOS DO INSTRUTOR
+        // =====================================================
+        [HttpGet("instrutor")]
+        public async Task<ActionResult<List<TreinoDto>>> GetTreinosInstrutor()
         {
+            var instrutorId = GetUserId();
+
+            var treinos = await _context.Treinos
+                .Where(t => t.InstrutorId == instrutorId)
+                .Include(t => t.ExerciciosTreino)
+                .Select(t => new TreinoDto
+                {
+                    Id = t.Id,
+                    Nome = t.Nome,
+                    Descricao = t.Descricao,
+                    Exercicios = t.ExerciciosTreino.Select(et => new ExercicioTreinoDto
+                    {
+                        Id = et.Id,
+                        ExercicioId = et.ExercicioId,
+                        Series = et.Series,
+                        Repeticoes = et.Repeticoes
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            return treinos;
+        }
+
+        // =====================================================
+        // 🥉 BUSCAR TREINO POR ID
+        // =====================================================
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TreinoDto>> GetTreino(int id)
+        {
+            var treino = await _context.Treinos
+                .Include(t => t.ExerciciosTreino)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (treino == null)
+                return NotFound();
+
+            var dto = new TreinoDto
+            {
+                Id = treino.Id,
+                Nome = treino.Nome,
+                Descricao = treino.Descricao,
+                Exercicios = treino.ExerciciosTreino.Select(et => new ExercicioTreinoDto
+                {
+                    Id = et.Id,
+                    ExercicioId = et.ExercicioId,
+                    Series = et.Series,
+                    Repeticoes = et.Repeticoes
+                }).ToList()
+            };
+
+            return dto;
+        }
+
+        // =====================================================
+        // 🚀 CRIAR TREINO COMPLETO
+        // =====================================================
+        [HttpPost("completo")]
+        public async Task<IActionResult> CreateCompleto(CreateTreinoCompletoDto dto)
+        {
+            var instrutorId = GetUserId();
+
             var treino = new Treino
             {
                 Nome = dto.Nome,
                 Descricao = dto.Descricao,
-                InstrutorId = GetUserId()
+                InstrutorId = instrutorId
             };
 
             _context.Treinos.Add(treino);
             await _context.SaveChangesAsync();
 
+            // vínculo aluno
             var treinoAluno = new TreinoAluno
             {
                 TreinoId = treino.Id,
@@ -125,9 +144,77 @@ namespace TreineMais.Api.Controllers
             };
 
             _context.TreinoAlunos.Add(treinoAluno);
+
+            // exercícios
+            foreach (var ex in dto.Exercicios)
+            {
+                var exercicioTreino = new ExercicioTreino
+                {
+                    TreinoId = treino.Id,
+                    ExercicioId = ex.ExercicioId,
+                    Series = ex.Series,
+                    Repeticoes = ex.Repeticoes
+                };
+
+                _context.ExercicioTreinos.Add(exercicioTreino);
+            }
+
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        // =====================================================
+        // ✏ EDITAR TREINO
+        // =====================================================
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTreino(int id, CreateTreinoCompletoDto dto)
+        {
+            var treino = await _context.Treinos
+                .Include(t => t.ExerciciosTreino)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (treino == null)
+                return NotFound();
+
+            treino.Nome = dto.Nome;
+            treino.Descricao = dto.Descricao;
+
+            // remove exercícios antigos
+            _context.ExercicioTreinos.RemoveRange(treino.ExerciciosTreino);
+
+            // adiciona novos
+            foreach (var ex in dto.Exercicios)
+            {
+                _context.ExercicioTreinos.Add(new ExercicioTreino
+                {
+                    TreinoId = treino.Id,
+                    ExercicioId = ex.ExercicioId,
+                    Series = ex.Series,
+                    Repeticoes = ex.Repeticoes
+                });
+            }
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // =====================================================
+        // 🗑 EXCLUIR TREINO
+        // =====================================================
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTreino(int id)
+        {
+            var treino = await _context.Treinos.FindAsync(id);
+
+            if (treino == null)
+                return NotFound();
+
+            _context.Treinos.Remove(treino);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

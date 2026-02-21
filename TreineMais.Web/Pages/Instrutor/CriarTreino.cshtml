@@ -1,0 +1,10 @@
+<h2>Criar Treino</h2>
+
+<form method="post">
+    <input asp-for="Nome" placeholder="Nome do treino" />
+    <input asp-for="Descricao" placeholder="Descrição" />
+
+    <select asp-for="AlunoId" asp-items="Model.AlunosSelect"></select>
+
+    <button type="submit">Salvar</button>
+</form>
