@@ -93,5 +93,21 @@ namespace TreineMais.Api.Controllers
 
             return Ok(exercicios);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CriarTreino([FromBody] CreateTreinoDto dto)
+        {
+            var treino = new Treino
+            {
+                Nome = dto.Nome,
+                DiaSemana = dto.DiaSemana,
+                AlunoId = dto.AlunoId
+            };
+
+            _context.Treinos.Add(treino);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

@@ -1,0 +1,24 @@
+@page "{alunoId:int}"
+@model TreineMais.Web.Pages.Instrutor.TreinosModel
+
+<h2>Cadastrar Treino</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="AlunoId" value="@RouteData.Values["alunoId"]" />
+
+    <div>
+        <label>Nome do Treino</label>
+        <input asp-for="Nome" class="form-control" />
+    </div>
+
+    <div>
+        <label>Dia da Semana</label>
+        <input asp-for="DiaSemana" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Salvar
+    </button>
+</form>
