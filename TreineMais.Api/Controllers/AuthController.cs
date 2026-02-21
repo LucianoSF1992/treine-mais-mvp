@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
-using TreineMais.Api.DTOs;
 using Microsoft.AspNetCore.Identity;
 using TreineMais.Api.Services;
+using TreineMais.Api.DTOs;
 
 
 namespace TreineMais.Api.Controllers

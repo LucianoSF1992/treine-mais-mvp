@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TreineMais.Api.Data;
 using TreineMais.Api.Models;
+using TreineMais.Api.DTOs;
 
 namespace TreineMais.Api.Controllers
 {
@@ -79,8 +80,8 @@ namespace TreineMais.Api.Controllers
                 .Select(e => new ExercicioTreinoDto
                 {
                     ExercicioId = e.Id,
-                    Nome = e.Nome,
-                    GrupoMuscular = e.GrupoMuscular,
+                    Nome = e.Nome ?? "",
+                    GrupoMuscular = e.GrupoMuscular ?? "",
 
                     Concluido = _context.ExercicioConclusoes
                         .Any(c =>
