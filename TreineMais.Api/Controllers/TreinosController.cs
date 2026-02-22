@@ -42,9 +42,8 @@ namespace TreineMais.Api.Controllers
 
             var treinos = await _context.TreinoAlunos
                 .Where(ta => ta.AlunoId == alunoId && ta.Treino != null)
-                .Include(ta => ta.Treino)
+                .Include(ta => ta.Treino!)
                     .ThenInclude(t => t.ExerciciosTreino)
-                        .ThenInclude(et => et.Exercicio)
                 .Select(ta => new TreinoDto
                 {
                     Id = ta.Treino!.Id,
