@@ -49,12 +49,16 @@ namespace TreineMais.Api.Controllers
                     Id = ta.Treino!.Id,
                     Nome = ta.Treino!.Nome,
                     Descricao = ta.Treino!.Descricao,
+                    DiaSemana = ta.DiaSemana!,
                     Exercicios = ta.Treino!.ExerciciosTreino.Select(et => new ExercicioTreinoDto
                     {
                         Id = et.Id,
                         ExercicioId = et.ExercicioId,
+                        Nome = et.Exercicio.Nome!,
+                        GrupoMuscular = et.Exercicio.GrupoMuscular!,
                         Series = et.Series,
-                        Repeticoes = et.Repeticoes
+                        Repeticoes = et.Repeticoes,
+                        Concluido = false // ou lógica futura
                     }).ToList()
                 })
                 .ToListAsync();
