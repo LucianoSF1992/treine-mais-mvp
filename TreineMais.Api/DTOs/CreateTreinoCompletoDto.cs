@@ -1,3 +1,4 @@
+using TreineMais.Api.DTOs;
 namespace TreineMais.Api.DTOs
 {
     public class CreateTreinoCompletoDto
@@ -8,7 +9,7 @@ namespace TreineMais.Api.DTOs
         public int AlunoId { get; set; }
         public string? DiaSemana { get; set; }
 
-        public List<ExercicioDto> Exercicios { get; set; } = new();
+        public List<CreateTreinoExercicioDto> Exercicios { get; set; } = new();
     }
 
     public class ExercicioDtoCompleto
