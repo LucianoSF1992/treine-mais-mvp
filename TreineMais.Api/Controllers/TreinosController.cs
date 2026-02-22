@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using TreineMais.Api.Data;
 using TreineMais.Api.DTOs;
 using TreineMais.Api.Models;
@@ -21,11 +20,16 @@ namespace TreineMais.Api.Controllers
         }
 
         // =====================================================
-        // 🔐 HELPER — PEGAR ID DO USUÁRIO LOGADO
+        // 🔐 HELPER — PEGAR ID DO USUÁRIO LOGADO (SEGURO)
         // =====================================================
         private int GetUserId()
         {
-            return int.Parse(User.FindFirst("UserId")!.Value);
+            var claim = User.FindFirst("UserId");
+
+            if (claim == null)
+                throw new UnauthorizedAccessException("Usuário não autenticado.");
+
+            return int.Parse(claim.Value);
         }
 
         // =====================================================
@@ -40,6 +44,7 @@ namespace TreineMais.Api.Controllers
                 .Where(ta => ta.AlunoId == alunoId)
                 .Include(ta => ta.Treino)
                     .ThenInclude(t => t.ExerciciosTreino)
+                        .ThenInclude(et => et.Exercicio)
                 .Select(ta => new TreinoDto
                 {
                     Id = ta.Treino.Id,
@@ -69,6 +74,7 @@ namespace TreineMais.Api.Controllers
             var treinos = await _context.Treinos
                 .Where(t => t.InstrutorId == instrutorId)
                 .Include(t => t.ExerciciosTreino)
+                    .ThenInclude(et => et.Exercicio)
                 .Select(t => new TreinoDto
                 {
                     Id = t.Id,
@@ -100,7 +106,7 @@ namespace TreineMais.Api.Controllers
             if (treino == null)
                 return NotFound();
 
-            var dto = new TreinoDto
+            return new TreinoDto
             {
                 Id = treino.Id,
                 Nome = treino.Nome,
@@ -113,8 +119,6 @@ namespace TreineMais.Api.Controllers
                     Repeticoes = et.Repeticoes
                 }).ToList()
             };
-
-            return dto;
         }
 
         // =====================================================
@@ -125,11 +129,15 @@ namespace TreineMais.Api.Controllers
         {
             var instrutorId = GetUserId();
 
+            if (dto.Exercicios == null || !dto.Exercicios.Any())
+                return BadRequest("Treino precisa ter exercícios.");
+
             var treino = new Treino
             {
                 Nome = dto.Nome,
                 Descricao = dto.Descricao,
-                InstrutorId = instrutorId
+                InstrutorId = instrutorId,
+                AlunoId = dto.AlunoId
             };
 
             _context.Treinos.Add(treino);
@@ -148,15 +156,13 @@ namespace TreineMais.Api.Controllers
             // exercícios
             foreach (var ex in dto.Exercicios)
             {
-                var exercicioTreino = new ExercicioTreino
+                _context.ExercicioTreinos.Add(new ExercicioTreino
                 {
                     TreinoId = treino.Id,
                     ExercicioId = ex.ExercicioId,
                     Series = ex.Series,
                     Repeticoes = ex.Repeticoes
-                };
-
-                _context.ExercicioTreinos.Add(exercicioTreino);
+                });
             }
 
             await _context.SaveChangesAsync();
@@ -180,7 +186,7 @@ namespace TreineMais.Api.Controllers
             treino.Nome = dto.Nome;
             treino.Descricao = dto.Descricao;
 
-            // remove exercícios antigos
+            // remove antigos
             _context.ExercicioTreinos.RemoveRange(treino.ExerciciosTreino);
 
             // adiciona novos
@@ -206,12 +212,16 @@ namespace TreineMais.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTreino(int id)
         {
-            var treino = await _context.Treinos.FindAsync(id);
+            var treino = await _context.Treinos
+                .Include(t => t.ExerciciosTreino)
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             if (treino == null)
                 return NotFound();
 
+            _context.ExercicioTreinos.RemoveRange(treino.ExerciciosTreino);
             _context.Treinos.Remove(treino);
+
             await _context.SaveChangesAsync();
 
             return NoContent();

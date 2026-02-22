@@ -12,6 +12,7 @@ namespace TreineMais.Api.Data
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Treino> Treinos { get; set; }
         public DbSet<Exercicio> Exercicios { get; set; }
+        public DbSet<ExercicioTreino> ExercicioTreinos { get; set; }
         public DbSet<ExercicioConclusao> ExercicioConclusoes { get; set; }
         public DbSet<Treino> Treino { get; set; }
         public DbSet<TreinoAluno> TreinoAlunos { get; set; }

@@ -8,9 +8,11 @@ namespace TreineMais.Api.Models
 
         public string? Descricao { get; set; }
 
+        public int AlunoId { get; set; }
+
         public int InstrutorId { get; set; }
 
-        public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
+        public ICollection<ExercicioTreino> ExerciciosTreino { get; set; }
+            = new List<ExercicioTreino>();
     }
-
 }
