@@ -41,16 +41,16 @@ namespace TreineMais.Api.Controllers
             var alunoId = GetUserId();
 
             var treinos = await _context.TreinoAlunos
-                .Where(ta => ta.AlunoId == alunoId)
+                .Where(ta => ta.AlunoId == alunoId && ta.Treino != null)
                 .Include(ta => ta.Treino)
                     .ThenInclude(t => t.ExerciciosTreino)
                         .ThenInclude(et => et.Exercicio)
                 .Select(ta => new TreinoDto
                 {
-                    Id = ta.Treino.Id,
-                    Nome = ta.Treino.Nome,
-                    Descricao = ta.Treino.Descricao,
-                    Exercicios = ta.Treino.ExerciciosTreino.Select(et => new ExercicioTreinoDto
+                    Id = ta.Treino!.Id,
+                    Nome = ta.Treino!.Nome,
+                    Descricao = ta.Treino!.Descricao,
+                    Exercicios = ta.Treino!.ExerciciosTreino.Select(et => new ExercicioTreinoDto
                     {
                         Id = et.Id,
                         ExercicioId = et.ExercicioId,
