@@ -27,7 +27,7 @@ namespace TreineMais.Api.Controllers
             var claim = User.FindFirst("UserId");
 
             if (claim == null)
-                throw new UnauthorizedAccessException("Usuário não autenticado.");
+                throw new UnauthorizedAccessException("Usuário não autenticado");
 
             return int.Parse(claim.Value);
         }
